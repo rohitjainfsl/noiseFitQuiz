@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel || Quiz</title>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="top-5-questions">
+        <h1>Top 5 Questions</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Question</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      let quizzes = [];
+      let tbody = document.querySelector("#top-5-questions table tbody");
+
+      window.onload = function () {
+        fetch("http://localhost:3000/api/quizzes")
+          .then((response) => response.json())
+          .then((data) => {
+            // Process the data here
+            quizzes = data;
+            console.log(quizzes)
+
+            quizzes.forEach((quiz, index) => {
+              if (index < 5) {
+                let tr = document.createElement("tr");
+                let td1 = document.createElement("td");
+                let td2 = document.createElement("td");
+                let td3 = document.createElement("td");
+                td1.innerHTML = index + 1;
+                td2.innerHTML = quiz.questions[0].question;
+                td3.innerHTML = `<a href="update.html?id=${quiz._id}">Edit</a>`;
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tbody.appendChild(tr);
+              }
+            });
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      };
+    </script>
+  </body>
+</html>

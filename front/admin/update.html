@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quiz</title>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      if (!urlParams.has("id")) window.location.href = "index.html";
+    </script>
+  </head>
+  <body>
+    <h1>Update Quiz</h1>
+    <form id="updateQuizForm">
+      <label for="question">Question:</label>
+      <input type="text" id="question" name="question" required /><br /><br />
+
+      <label for="option1">Option 1:</label>
+      <input type="text" id="option1" name="option1" required /><br /><br />
+
+      <label for="option2">Option 2:</label>
+      <input type="text" id="option2" name="option2" required /><br /><br />
+
+      <label for="option3">Option 3:</label>
+      <input type="text" id="option3" name="option3" required /><br /><br />
+
+      <label for="option4">Option 4:</label>
+      <input type="text" id="option4" name="option4" required /><br /><br />
+
+      <label for="correctOption">Correct Option:</label>
+      <select id="correctOption" name="correctOption" required>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+        <option value="option4">Option 4</option></select
+      ><br /><br />
+
+      <button type="submit">Update</button>
+    </form>
+
+
+    <a href="index.html"> &larr; Back to questions</a>
+
+    <script>
+      let quiz;
+      // Get the URL parameters
+
+      // The "id" parameter exists in the URL
+      const id = urlParams.get("id");
+
+      // Send API request to /api/quizzes/:id
+      fetch(`http://localhost:3000/api/quizzes/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle API response
+          quiz = data;
+          
+          document.getElementById("question").value =
+            quiz.questions[0].question;
+          document.getElementById("option1").value =
+            quiz.questions[0].options[0];
+          document.getElementById("option2").value =
+            quiz.questions[0].options[1];
+          document.getElementById("option3").value =
+            quiz.questions[0].options[2];
+          document.getElementById("option4").value =
+            quiz.questions[0].options[3];
+          document.getElementById("correctOption").value =
+            quiz.questions[0].correctAnswer;
+        })
+        .catch((error) => {
+          // Handle error
+          console.error(error);
+        });
+
+      // Add event listener to the form submit event
+      document
+        .getElementById("updateQuizForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent form submission
+
+          // Get form values
+          var question = document.getElementById("question").value;
+          var option1 = document.getElementById("option1").value;
+          var option2 = document.getElementById("option2").value;
+          var option3 = document.getElementById("option3").value;
+          var option4 = document.getElementById("option4").value;
+          var correctOption = document.getElementById("correctOption").value;
+
+          // TODO: Perform update quiz logic here
+
+          // Send API request to /api/quizzes/:id
+          fetch("http://localhost:3000/api/quizzes/:id", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              question: question,
+              options: [option1, option2, option3, option4],
+              correctAnswer: correctOption,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Handle API response
+              console.log(data);
+            })
+            .catch((error) => {
+              // Handle error
+              console.error(error);
+            });
+
+          // Reset form
+          document.getElementById("updateQuizForm").reset();
+        });
+    </script>
+  </body>
+</html>

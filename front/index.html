@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quiz</title>
+    <style>
+      #countdown,
+      #quiz {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="start">
+        <button>Start Quiz</button>
+      </div>
+      <div id="countdown"></div>
+      <div id="quiz">
+        <div id="timer"></div>
+        <div id="question"></div>
+        <div id="choices">
+          <div class="choice">
+            <input type="radio" name="choice" id="choice1" />
+            <label for="choice1"></label>
+          </div>
+          <div class="choice">
+            <input type="radio" name="choice" id="choice2" />
+            <label for="choice2"></label>
+          </div>
+          <div class="choice">
+            <input type="radio" name="choice" id="choice3" />
+            <label for="choice3"></label>
+          </div>
+          <div class="choice">
+            <input type="radio" name="choice" id="choice4" />
+            <label for="choice4"></label>
+          </div>
+        </div>
+        <div id="points"></div>
+      </div>
+    </div>
+
+    <script>
+      // Define a global variable to store the questions
+      let questions = [];
+
+      window.onload = function () {
+        // Fetch questions from the API and store them in the global variable
+        fetch("http://localhost:3000/api/quizzes")
+          .then((response) => response.json())
+          .then((data) => {
+            questions = data;
+            // console.log(questions);
+          })
+          .catch((error) => {
+            console.error("Error fetching questions:", error);
+          });
+      };
+
+      const startButton = document.querySelector("button");
+      const startDiv = document.querySelector("#start");
+      const countdownDiv = document.querySelector("#countdown");
+      const quizDiv = document.querySelector("#quiz");
+      const questionDiv = document.querySelector("#question");
+      const choicesDiv = document.querySelector("#choices");
+      const choiceDiv = document.querySelectorAll(".choice");
+      const pointsDiv = document.querySelector("#points");
+      const timerDiv = document.querySelector("#timer");
+
+      let countdown = 3;
+      let questionNumber = 0;
+      let timer = 10;
+
+      startButton.addEventListener("click", startCountdown);
+
+      function startCountdown() {
+        startDiv.style.display = "none";
+        countdownDiv.style.display = "flex";
+
+        countdownDiv.innerHTML = countdown--;
+
+        let countdownInterval = setInterval(function () {
+          if (countdown === 0) {
+            clearInterval(countdownInterval);
+            // Start the quiz here
+            startQuiz();
+
+            countdownDiv.style.display = "none";
+          } else {
+            countdownDiv.innerHTML = countdown--;
+          }
+        }, 1000);
+      }
+
+      function startQuiz() {
+        countdownDiv.style.display = "none";
+        quizDiv.style.display = "flex";
+        questionDiv.innerHTML = questions[0].questions[questionNumber].question;
+
+        for (let i = 0; i < choiceDiv.length; i++) {
+          choiceDiv[i].children[0].value =
+            questions[0].questions[questionNumber].options[i];
+          choiceDiv[i].children[1].innerHTML =
+            questions[0].questions[questionNumber].options[i];
+        }
+
+        startTimer();
+      }
+
+      function startTimer() {
+        timerDiv.innerHTML = timer;
+
+        let timerInterval = setInterval(function () {
+          if (timer === 0) {
+            clearInterval(timerInterval);
+            moveToNextQuestion();
+          } else {
+            timerDiv.innerHTML = timer--;
+          }
+        }, 1000);
+      }
+
+      function moveToNextQuestion() {
+        // Logic to move to the next question
+      }
+    </script>
+  </body>
+</html>
