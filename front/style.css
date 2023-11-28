@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: #6441a5;
+  background: -webkit-linear-gradient(to right, #2a0845, #6441a5);
+  background: linear-gradient(to right, #2a0845, #6441a5);
+}
+#wrapper {
+  width: 50vw;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem auto;
+  background: #abbaab;
+  background: -webkit-linear-gradient(to right, #ffffff, #abbaab);
+  background: linear-gradient(to right, #ffffff, #abbaab);
+  border-radius: 2rem;
+  box-shadow: 0 0 4rem 2rem rgba(0,0,0,0.5);
+}
+#countdown,
+#quiz {
+  display: none;
+}
+#points {
+  display: flex;
+}
+.pointer {
+  width: 20px;
+  height: 20px;
+  margin: 4px 8px;
+  border-radius: 50%;
+  border: 1px solid #e3e3e3;
+  position: relative;
+  cursor: pointer;
+}
+.pointer:before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #e3e3e3;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}

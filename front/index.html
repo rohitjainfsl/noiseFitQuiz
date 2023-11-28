@@ -2,12 +2,7 @@
 <html>
   <head>
     <title>Quiz</title>
-    <style>
-      #countdown,
-      #quiz {
-        display: none;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div id="wrapper">
@@ -69,7 +64,7 @@
 
       let countdown = 3;
       let questionNumber = 0;
-      let timer = 10;
+      let timer = 4;
 
       startButton.addEventListener("click", startCountdown);
 
@@ -95,16 +90,23 @@
       function startQuiz() {
         countdownDiv.style.display = "none";
         quizDiv.style.display = "flex";
-        questionDiv.innerHTML = questions[0].questions[questionNumber].question;
+
+        startTimer();
+
+        displayQuestionOptions();
+
+        displayPoints();
+      }
+
+      function displayQuestionOptions() {
+        questionDiv.innerHTML = questions[questionNumber].questions[0].question;
 
         for (let i = 0; i < choiceDiv.length; i++) {
           choiceDiv[i].children[0].value =
-            questions[0].questions[questionNumber].options[i];
+            questions[questionNumber].questions[0].options[i];
           choiceDiv[i].children[1].innerHTML =
-            questions[0].questions[questionNumber].options[i];
+            questions[questionNumber].questions[0].options[i];
         }
-
-        startTimer();
       }
 
       function startTimer() {
@@ -115,13 +117,25 @@
             clearInterval(timerInterval);
             moveToNextQuestion();
           } else {
-            timerDiv.innerHTML = timer--;
+            timerDiv.innerHTML = --timer;
           }
         }, 1000);
       }
 
+      function displayPoints() {
+        for (let i = 0; i < questions.length; i++) {
+          let point = document.createElement("p");
+          point.classList.add("pointer");
+          pointsDiv.append(point);
+        }
+      }
+
       function moveToNextQuestion() {
         // Logic to move to the next question
+        questionNumber++;
+        timer = 4;
+        startTimer();
+        displayQuestionOptions();
       }
     </script>
   </body>
