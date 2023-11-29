@@ -115,11 +115,22 @@
         let timerInterval = setInterval(function () {
           if (timer === 0) {
             clearInterval(timerInterval);
+            pointerColor("wrong");
             moveToNextQuestion();
           } else {
             timerDiv.innerHTML = --timer;
           }
         }, 1000);
+      }
+
+      function checkUserAnswer(){
+        if()
+      }
+
+      function pointerColor(answer){
+        const pointers = document.querySelectorAll(".pointer")
+        if(answer === "wrong")  pointers[questionNumber].classList.add("wrongAnswer");
+        else  pointers[questionNumber].classList.add("rightAnswer");
       }
 
       function displayPoints() {

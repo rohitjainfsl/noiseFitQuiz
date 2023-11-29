@@ -25,15 +25,21 @@ body {
 #quiz {
   display: none;
 }
+#quiz{
+  flex-direction: column;
+}
 #points {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
 }
 .pointer {
   width: 20px;
   height: 20px;
   margin: 4px 8px;
   border-radius: 50%;
-  border: 1px solid #e3e3e3;
+  border: 1px solid #838181;
   position: relative;
   cursor: pointer;
 }
@@ -47,4 +53,16 @@ body {
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
+}
+.pointer.wrongAnswer{
+  border-color: #f00;
+}
+.pointer.wrongAnswer:before{
+  background-color: #f00;
+}
+.pointer.rightAnswer{
+  border-color: #f00;
+}
+.pointer.rightAnswer:before{
+  background-color: #f00;
 }
