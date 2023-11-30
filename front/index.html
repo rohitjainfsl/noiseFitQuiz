@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Quiz</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="wrapper">
@@ -15,20 +15,16 @@
         <div id="question"></div>
         <div id="choices">
           <div class="choice">
-            <input type="radio" name="choice" id="choice1" />
-            <label for="choice1"></label>
+            <p id="choice1"></p>
           </div>
           <div class="choice">
-            <input type="radio" name="choice" id="choice2" />
-            <label for="choice2"></label>
+            <p id="choice2"></p>
           </div>
           <div class="choice">
-            <input type="radio" name="choice" id="choice3" />
-            <label for="choice3"></label>
+            <p id="choice3"></p>
           </div>
           <div class="choice">
-            <input type="radio" name="choice" id="choice4" />
-            <label for="choice4"></label>
+            <p id="choice4"></p>
           </div>
         </div>
         <div id="points"></div>
@@ -102,9 +98,7 @@
         questionDiv.innerHTML = questions[questionNumber].questions[0].question;
 
         for (let i = 0; i < choiceDiv.length; i++) {
-          choiceDiv[i].children[0].value =
-            questions[questionNumber].questions[0].options[i];
-          choiceDiv[i].children[1].innerHTML =
+          choiceDiv[i].innerHTML =
             questions[questionNumber].questions[0].options[i];
         }
       }
@@ -123,14 +117,15 @@
         }, 1000);
       }
 
-      function checkUserAnswer(){
-        if()
+      function checkUserAnswer(event) {
+        console.log(event.target.innerText);
       }
 
-      function pointerColor(answer){
-        const pointers = document.querySelectorAll(".pointer")
-        if(answer === "wrong")  pointers[questionNumber].classList.add("wrongAnswer");
-        else  pointers[questionNumber].classList.add("rightAnswer");
+      function pointerColor(answer) {
+        const pointers = document.querySelectorAll(".pointer");
+        if (answer === "wrong")
+          pointers[questionNumber].classList.add("wrongAnswer");
+        else pointers[questionNumber].classList.add("rightAnswer");
       }
 
       function displayPoints() {
@@ -147,6 +142,10 @@
         timer = 4;
         startTimer();
         displayQuestionOptions();
+      }
+
+      for (let i = 0; i < choiceDiv.length; i++) {
+        choiceDiv[i].addEventListener("click", checkUserAnswer);
       }
     </script>
   </body>
