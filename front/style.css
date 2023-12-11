@@ -28,6 +28,15 @@ body {
 #quiz{
   flex-direction: column;
 }
+#question{
+  font-size: 30px;
+}
+#choices{
+  font-size: 25px;
+}
+.choice{
+  cursor: pointer;
+}
 #points {
   display: flex;
   justify-content: center;
@@ -61,8 +70,8 @@ body {
   background-color: #f00;
 }
 .pointer.rightAnswer{
-  border-color: #f00;
+  border-color: green;
 }
 .pointer.rightAnswer:before{
-  background-color: #f00;
+  background-color:green;
 }

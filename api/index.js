@@ -66,6 +66,7 @@ app.post("/api/quizzes", async (req, res) => {
 app.get("/api/quizzes", async (req, res) => {
   try {
     const quizzes = await Quiz.find();
+    console.log(quizzes)
     res.send(quizzes);
   } catch (error) {
     console.log(error);
