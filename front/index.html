@@ -41,7 +41,7 @@
           .then((response) => response.json())
           .then((data) => {
             questions = data;
-            // console.log(questions);
+             console.log(questions);
           })
           .catch((error) => {
             console.error("Error fetching questions:", error);
@@ -57,10 +57,12 @@
       const choiceDiv = document.querySelectorAll(".choice");
       const pointsDiv = document.querySelector("#points");
       const timerDiv = document.querySelector("#timer");
+      const op = document.querySelector("p")
 
-      let countdown = 3;
+      let countdown = 1;
       let questionNumber = 0;
-      let timer = 4;
+      let timer = 10;
+      let timerInterval
 
       startButton.addEventListener("click", startCountdown);
 
@@ -96,17 +98,19 @@
 
       function displayQuestionOptions() {
         questionDiv.innerHTML = questions[questionNumber].questions[0].question;
-
+        
         for (let i = 0; i < choiceDiv.length; i++) {
           choiceDiv[i].innerHTML =
-            questions[questionNumber].questions[0].options[i];
+          questions[questionNumber].questions[0].options[i];
         }
+        // console.log(op.innerHTML)
+        checkUserAnswer(event);
       }
 
       function startTimer() {
         timerDiv.innerHTML = timer;
 
-        let timerInterval = setInterval(function () {
+         timerInterval = setInterval(function () {
           if (timer === 0) {
             clearInterval(timerInterval);
             pointerColor("wrong");
@@ -117,16 +121,60 @@
         }, 1000);
       }
 
-      function checkUserAnswer(event) {
-        console.log(event.target.innerText);
+      function checkUserAnswer() {
+        // console.log(questions[questionNumber].questions[0].correctAnswer);
+        let op = questions[questionNumber].questions[0].correctAnswer.split('option')[1]-1
+        // console.log(choiceDiv[op].innerHTML)
+
+        for(let i =0;i<choiceDiv.length;i++){
+          // choiceDiv[i].style.backgroundColor = 'none'
+          choiceDiv[i].onclick = ()=>{
+                console.log(choiceDiv[i].innerHTML)
+                if(choiceDiv[i].innerHTML === choiceDiv[op].innerHTML){
+                      // choiceDiv[op].style.backgroundColor = 'green';
+                      choiceDiv[op].style.backgroundColor = 'green'
+
+                    // console.log('right')
+                    pointerColor('right')
+                    
+
+                }
+                else {
+                  choiceDiv[i].style.backgroundColor = 'red'
+                  choiceDiv[op].style.backgroundColor = 'green'
+                  pointerColor('wrong')
+                  // console.log('wrong')
+                }  
+                  
+             let interval =   setInterval (()=>{
+                clearInterval(timerInterval)
+                clearInterval(interval)
+              console.log('hello')
+                    moveToNextQuestion();
+                    // timer = 4
+
+                    
+                },1000)
+               
+                
+          }
+        }
       }
 
       function pointerColor(answer) {
         const pointers = document.querySelectorAll(".pointer");
         if (answer === "wrong")
           pointers[questionNumber].classList.add("wrongAnswer");
-        else pointers[questionNumber].classList.add("rightAnswer");
+        else{ 
+          // pointers[questionNumber].classList.remove("wrongAnswer");
+        pointers[questionNumber].classList.add("rightAnswer");
       }
+      for(let i=0;i<choiceDiv.length;i++){
+              choiceDiv[i].style.pointerEvents = 'none'
+        // console.log(choiceDiv[0].innerHTML)
+            }
+          
+    }
 
       function displayPoints() {
         for (let i = 0; i < questions.length; i++) {
@@ -139,14 +187,25 @@
       function moveToNextQuestion() {
         // Logic to move to the next question
         questionNumber++;
-        timer = 4;
+        timer = 10;
         startTimer();
         displayQuestionOptions();
+        for(let i=0;i<choiceDiv.length;i++){
+              choiceDiv[i].style.pointerEvents = 'all'
+        // console.log(choiceDiv[0].innerHTML)
+            }
+            for(let i=0 ; i<choiceDiv.length;i++)
+            {
+            choiceDiv[i].style.background =  'none'
+      }
       }
 
       for (let i = 0; i < choiceDiv.length; i++) {
         choiceDiv[i].addEventListener("click", checkUserAnswer);
+
       }
+
+      
     </script>
   </body>
 </html>
